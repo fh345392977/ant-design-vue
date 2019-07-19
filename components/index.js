@@ -192,14 +192,15 @@ const install = function(Vue) {
   components.map(component => {
     Vue.use(component);
   });
-
-  Vue.prototype.$message = message;
-  Vue.prototype.$notification = notification;
-  Vue.prototype.$info = Modal.info;
-  Vue.prototype.$success = Modal.success;
-  Vue.prototype.$error = Modal.error;
-  Vue.prototype.$warning = Modal.warning;
-  Vue.prototype.$confirm = Modal.confirm;
+  Vue.prototype.$antd = {
+    $message: message,
+    $notification: notification,
+    $info: Modal.info,
+    $success: Modal.success,
+    $error: Modal.error,
+    $warning: Modal.warning,
+    $confirm: Modal.confirm,
+  };
 };
 
 /* istanbul ignore if */
