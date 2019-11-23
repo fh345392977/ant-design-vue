@@ -160,6 +160,13 @@ export default {
         }
       });
     },
+    handleDownload(file) {
+      const anchor = document.createElement('a');
+      anchor.setAttribute('href', file.url);
+      anchor.setAttribute('target', '_blank');
+      anchor.setAttribute('download', file.name);
+      anchor.click();
+    },
     handleManualRemove(file) {
       if (this.$refs.uploadRef) {
         this.$refs.uploadRef.abort(file);
@@ -199,17 +206,19 @@ export default {
     },
     renderUploadList(locale) {
       const { showUploadList = {}, listType } = getOptionProps(this);
-      const { showRemoveIcon, showPreviewIcon } = showUploadList;
+      const { showRemoveIcon, showPreviewIcon, showDownloadIcon } = showUploadList;
       const uploadListProps = {
         props: {
           listType,
           items: this.sFileList,
           showRemoveIcon,
+          showDownloadIcon,
           showPreviewIcon,
           locale: { ...locale, ...this.$props.locale },
         },
         on: {
           remove: this.handleManualRemove,
+          download: this.handleDownload
         },
       };
       if (this.$listeners.preview) {

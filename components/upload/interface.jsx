@@ -49,6 +49,7 @@ export const UploadChangeParam = {
 export const ShowUploadListInterface = PropsTypes.shape({
   showRemoveIcon: PropsTypes.bool,
   showPreviewIcon: PropsTypes.bool,
+  showDownloadIcon: PropsTypes.bool,
 }).loose;
 
 export const UploadLocale = PropsTypes.shape({

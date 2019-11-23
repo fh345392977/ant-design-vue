@@ -38,6 +38,7 @@ export default {
   Upload: {
     uploading: 'Uploading...',
     removeFile: 'Remove file',
+    downloadFile: 'Download file',
     uploadError: 'Upload error',
     previewFile: 'Preview file',
   },

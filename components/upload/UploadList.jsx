@@ -1,12 +1,12 @@
-import BaseMixin from '../_util/BaseMixin';
+import BaseMixin                            from '../_util/BaseMixin';
 import { getOptionProps, initDefaultProps } from '../_util/props-util';
-import getTransitionProps from '../_util/getTransitionProps';
-import { ConfigConsumerProps } from '../config-provider';
-import Icon from '../icon';
-import Tooltip from '../tooltip';
-import Progress from '../progress';
-import classNames from 'classnames';
-import { UploadListProps } from './interface';
+import getTransitionProps                   from '../_util/getTransitionProps';
+import { ConfigConsumerProps }              from '../config-provider';
+import Icon                                 from '../icon';
+import Tooltip                              from '../tooltip';
+import Progress                             from '../progress';
+import classNames                           from 'classnames';
+import { UploadListProps }                  from './interface';
 
 const imageTypes = ['image', 'webp', 'png', 'svg', 'gif', 'jpg', 'jpeg', 'bmp', 'dpg', 'ico'];
 // https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
@@ -57,6 +57,7 @@ export default {
       showInfo: false,
     },
     showRemoveIcon: true,
+    showDownloadIcon: true,
     showPreviewIcon: true,
   }),
   inject: {
@@ -94,6 +95,9 @@ export default {
     handleClose(file) {
       this.$emit('remove', file);
     },
+    handleDownload(file) {
+      this.$emit('download', file);
+    },
     handlePreview(file, e) {
       const { preview } = this.$listeners;
       if (!preview) {
@@ -110,6 +114,7 @@ export default {
       listType,
       showPreviewIcon,
       showRemoveIcon,
+      showDownloadIcon,
       locale,
     } = getOptionProps(this);
     const getPrefixCls = this.configProvider.getPrefixCls;
@@ -117,18 +122,18 @@ export default {
 
     const list = items.map(file => {
       let progress;
-      let icon = <Icon type={file.status === 'uploading' ? 'loading' : 'paper-clip'} />;
+      let icon = <Icon type={file.status === 'uploading' ? 'loading' : 'paper-clip'}/>;
 
       if (listType === 'picture' || listType === 'picture-card') {
         if (listType === 'picture-card' && file.status === 'uploading') {
           icon = <div class={`${prefixCls}-list-item-uploading-text`}>{locale.uploading}</div>;
         } else if (!file.thumbUrl && !file.url) {
-          icon = <Icon class={`${prefixCls}-list-item-thumbnail`} type="picture" theme="twoTone" />;
+          icon = <Icon class={`${prefixCls}-list-item-thumbnail`} type="picture" theme="twoTone"/>;
         } else {
           const thumbnail = isImageUrl(file) ? (
-            <img src={file.thumbUrl || file.url} alt={file.name} />
+            <img src={file.thumbUrl || file.url} alt={file.name}/>
           ) : (
-            <Icon type="file" class={`${prefixCls}-list-item-icon`} theme="twoTone" />
+            <Icon type="file" class={`${prefixCls}-list-item-icon`} theme="twoTone"/>
           );
           icon = (
             <a
@@ -192,9 +197,9 @@ export default {
         file.url || file.thumbUrl
           ? undefined
           : {
-              pointerEvents: 'none',
-              opacity: 0.5,
-            };
+            pointerEvents: 'none',
+            opacity: 0.5,
+          };
       const previewIcon = showPreviewIcon ? (
         <a
           href={file.url || file.thumbUrl}
@@ -204,7 +209,7 @@ export default {
           onClick={e => this.handlePreview(file, e)}
           title={locale.previewFile}
         >
-          <Icon type="eye-o" />
+          <Icon type="eye-o"/>
         </a>
       ) : null;
       const iconProps = {
@@ -218,9 +223,21 @@ export default {
           },
         },
       };
+      const downloadProps = {
+        props: {
+          type: 'download',
+          title: locale.removeFile,
+        },
+        on: {
+          click: () => {
+            this.handleDownload(file);
+          },
+        },
+      };
       const iconProps1 = { ...iconProps, ...{ props: { type: 'close' } } };
       const removeIcon = showRemoveIcon ? <Icon {...iconProps} /> : null;
       const removeIconClose = showRemoveIcon ? <Icon {...iconProps1} /> : null;
+      const downloadIcon = showDownloadIcon ? <Icon {...downloadProps} /> : null;
       const actions =
         listType === 'picture-card' && file.status !== 'uploading' ? (
           <span class={`${prefixCls}-list-item-actions`}>
@@ -252,6 +269,7 @@ export default {
       return (
         <div class={infoUploadingClass} key={file.uid}>
           <div class={`${prefixCls}-list-item-info`}>{iconAndPreview}</div>
+          {downloadIcon}
           {actions}
           <transition {...transitionProps}>{progress}</transition>
         </div>

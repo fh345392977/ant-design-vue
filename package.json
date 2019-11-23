@@ -54,11 +54,6 @@
         "url": "https://github.com/vueComponent/ant-design-vue/issues"
     },
     "homepage": "https://vue.ant.design/",
-    "husky": {
-        "hooks": {
-            "pre-commit": "pretty-quick --staged"
-        }
-    },
     "peerDependencies": {
         "vue": ">=2.6.6",
         "vue-template-compiler": ">=2.6.6"
