@@ -103,5 +103,6 @@ export var UploadListProps = {
   prefixCls: PropsTypes.string,
   showRemoveIcon: PropsTypes.bool,
   showPreviewIcon: PropsTypes.bool,
+  showDownloadIcon: PropsTypes.bool,
   locale: UploadLocale
 };
