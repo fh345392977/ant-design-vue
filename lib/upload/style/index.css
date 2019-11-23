@@ -193,8 +193,8 @@
   -webkit-transform: scale(0.83333333) rotate(0deg);
           transform: scale(0.83333333) rotate(0deg);
   position: absolute;
-  top: 24px;
-  right: 4px;
+  top: 6px;
+  right: 24px;
   color: rgba(0, 0, 0, 0.45);
   line-height: 0;
   cursor: pointer;
